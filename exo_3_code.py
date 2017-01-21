@@ -35,7 +35,16 @@ def main(argv):
 	x = min_max_scaler.fit_transform(x)	
 	
 	score= []
-	score.append(['technique','percentage','knn score','nn score','SVM Score','average score','total number of features', 'current number of features'])
+
+	score_prov = []
+	score_prov.append('NO')
+	score_prov.append('1')
+	score_prov = score_prov+data_test_and_validation(x_new, y)
+	score_prov.append(int(x[0].size))
+	score_prov.append(int(x[0].size))	
+	score.append(score_prov)
+
+	score.append(['Technique','Percentage','K-nn score','NN score','SVM Score','Average score','Total number of features', 'Number of selected features'])
 	for technique in ['univariate', 'tree_based', 'l1'] :
 		for percentage in np.arange(0.1,1.05,0.1) :
 			score_prov = []

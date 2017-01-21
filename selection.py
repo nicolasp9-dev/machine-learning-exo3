@@ -26,8 +26,7 @@ def features_selection(X, y, technique, percentage) :
 
 
 def univariant_feature_selection(X,y,method,score_function, percentage) :
-	k = int(X[0].size * percentage)
-
+	k = int(X[0].size * percentage) 
 	if method == 'KBest':
 		if score_function == 'chi2':
 		    return SelectKBest(chi2, k=k).fit_transform(X, y)
@@ -38,31 +37,27 @@ def univariant_feature_selection(X,y,method,score_function, percentage) :
 
 def lvariance_feature_selection(X,y, percentage) :
 	X = preprocessing.scale(X)
-	j=0
+	j=0.5
 	stay = True
 	while stay :
 		
-		j+=0.01
+		j+=1
 		sel = VarianceThreshold(threshold=(j * (1 - j)))
-		try :
-			(sel.fit_transform(X))[0]
-			if ((sel.fit_transform(X))[0].size < percentage*X[0].size) :
-				stay = False
-			print (sel.fit_transform(X))[0].size
-		except :
-			print "hello"
-	print (sel.fit_transform(X))[0].size
+		if ((sel.fit_transform(X))[0].size <= percentage*X[0].size) :
+			stay = False
+		print (sel.fit_transform(X))[0].size
 	return sel.transform(X)
 
 def l1_feature_selection(X,y, percentage) :
-	lsvc = LinearSVC(C=0.01, penalty="l1", dual=False).fit(X, y)
-	j=0
+	j=percentage*X[0].size*0.01
 	stay = True
 	while stay :
-		j+=0.01
-		stra = str(j) +"*mean"
-		model = SelectFromModel(lsvc, prefit=True, threshold=stra)
-		if ((model.transform(X))[0].size < percentage*X[0].size) :
+		j-=0.0001*percentage*X[0].size/2
+		lsvc = LinearSVC(C=j, penalty="l1", dual=False).fit(X, y)
+		model = SelectFromModel(lsvc, prefit=True)
+		if ((model.transform(X))[0].size <= percentage*X[0].size) :
+			print (model.transform(X))[0].size
+			print percentage*X[0].size
 			stay = False
 	return model.transform(X)
 	
@@ -73,10 +68,10 @@ def tree_based_feature_selection(X,y, percentage) :
 	j=0
 	stay = True
 	while stay :
-		j+=0.01
+		j+=0.001
 		stra = str(j) +"*mean"
 		model = SelectFromModel(clf, prefit=True, threshold=stra)
-		if ((model.transform(X))[0].size < percentage*X[0].size) :
+		if ((model.transform(X))[0].size <= percentage*X[0].size) :
 			stay = False
 	return model.transform(X)
 
