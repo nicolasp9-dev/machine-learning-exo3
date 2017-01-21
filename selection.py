@@ -1,6 +1,7 @@
 from sklearn.feature_selection import SelectKBest
 from sklearn.feature_selection import chi2, mutual_info_classif, f_classif
-
+from sklearn.ensemble import ExtraTreesClassifier
+from sklearn.feature_selection import SelectFromModel
 
 #
 # Function that reduce the number of features of a dataset using one of the five choosed techniques 
@@ -27,13 +28,13 @@ def univariant_feature_selection(X,y,method,score_function) :
             return SelectKBest(f_classif, k=2).fit_transform(X, y)
 
 def lvariance_feature_selection(X,y) :
-
-	return
-
-
-def tree_based_feature_selection(X,y) :
 	clf = ExtraTreesClassifier()
 	clf = clf.fit(X, y)
 	model = SelectFromModel(clf, prefit=True)
-	X_new = model.transform(X)
-	return
+	return model.transform(X)
+
+
+def tree_based_feature_selection(X,y) :
+
+
+	return 

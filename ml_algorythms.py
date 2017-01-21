@@ -11,7 +11,6 @@ from sklearn.neural_network import MLPClassifier
 
 def data_test_and_validation(x, y) :
 	score = []
-
 	x_train, x_test, y_train, y_test  = train_test_split(x, y, test_size=.3)
 	
 	# K-NN Algorythm
