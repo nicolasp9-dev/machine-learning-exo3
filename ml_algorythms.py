@@ -1,6 +1,6 @@
 from sklearn import neighbors
 from sklearn.model_selection import train_test_split
-
+from sklearn.neural_network import MLPClassifier
 
 
 #
@@ -20,9 +20,14 @@ def data_test_and_validation(x, y) :
 	clf = neighbors.KNeighborsClassifier(n_neighbors, weights='distance')
     	clf.fit(x_train, y_train)
 	score.append(clf.score(x_test, y_test))
-	print score[0]
 
-	# Second ML Algorythm
+	# NN Algorythm
+	
+	clf2 = MLPClassifier(alpha=1)
+   	clf2.fit(x_train,y_train)
+    	score.append(clf2.score(x_test, y_test))
+
+	print "K-nn score : %f / NN score : %f" % (score[0],  score[1])
 
 	# Third ML Algorithm
 

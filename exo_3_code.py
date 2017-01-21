@@ -24,8 +24,8 @@ def main(argv):
 	x = data[:,:len(data[0])-1]
 	x = x.astype(np.float)
 	y = data[:,len(data[0])-1]
-	x_new, y_new = features_selection(x, y, "1", "0.8")
-	score = data_test_and_validation(x, y)
+	x_new, y_new = features_selection(x, y, 'univariate')
+	score = data_test_and_validation(x_new, y_new)
 
 if __name__ == "__main__":
    	main(sys.argv[1:])
