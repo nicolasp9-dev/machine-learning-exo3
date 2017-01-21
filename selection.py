@@ -59,7 +59,7 @@ def l1_feature_selection(X,y, percentage) :
 	j=0
 	stay = True
 	while stay :
-		j+=0.05
+		j+=0.01
 		stra = str(j) +"*mean"
 		model = SelectFromModel(lsvc, prefit=True, threshold=stra)
 		if ((model.transform(X))[0].size < percentage*X[0].size) :
@@ -73,7 +73,7 @@ def tree_based_feature_selection(X,y, percentage) :
 	j=0
 	stay = True
 	while stay :
-		j+=0.05
+		j+=0.01
 		stra = str(j) +"*mean"
 		model = SelectFromModel(clf, prefit=True, threshold=stra)
 		if ((model.transform(X))[0].size < percentage*X[0].size) :
