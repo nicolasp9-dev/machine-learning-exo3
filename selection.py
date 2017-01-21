@@ -32,5 +32,8 @@ def lvariance_feature_selection(X,y) :
 
 
 def tree_based_feature_selection(X,y) :
-
+	clf = ExtraTreesClassifier()
+	clf = clf.fit(X, y)
+	model = SelectFromModel(clf, prefit=True)
+	X_new = model.transform(X)
 	return
