@@ -11,7 +11,7 @@
 
 import sys, getopt
 import arff, numpy as np
-
+from sklearn import neighbors
 
 #
 # Load .ARFF file into a numpy table
@@ -78,7 +78,7 @@ Help :
 # and based on a purcentage of reduction (0.8 : 80% of original number of features will be conserve)
 #
 
-def data_selection(x, y, technique, pourcentage_of_features) :
+def features_selection(x, y, technique, pourcentage_of_features) :
 	x_new = []
 	y_new = []
 	
@@ -87,14 +87,21 @@ def data_selection(x, y, technique, pourcentage_of_features) :
 
 #
 # Function that test a data set with differents learning techniques and a validation technique
-# and return the 3 scors (for each techniques) and the average score.
+# and return the 3 scores (for each techniques) and the average score.
 #
 
 
-def data_test_and_validation(x_new, y_new) :
+def data_test_and_validation(x, y) :
 	score = []
 
-
+	# K-NN Algorythm
+	n_neighbors = 5
+	
+	clf = neighbors.KNeighborsClassifier(n_neighbors, weights='distance')
+    	clf.fit(x, y)
+	
+	
+	#score.append((score[O]+score[1]+score[2])/3)
 	return score
 
 
@@ -105,9 +112,9 @@ def main(argv):
 	data  = load_file(datasetfile)
 	x = data[:,:len(data[0])-1]
 	x = x.astype(np.float)
-	y = data[:,len(data[0])-1:len(data[0])]
-	x_new, y_new = data_selection(x, y, "1", "0.8")
-	score = data_test_and_validation(x_new, y_new)
+	y = data[:,len(data[0])-1]
+	x_new, y_new = features_selection(x, y, "1", "0.8")
+	score = data_test_and_validation(x, y)
 
 if __name__ == "__main__":
    	main(sys.argv[1:])
