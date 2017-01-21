@@ -73,6 +73,29 @@ Help :
 -d or --datasetfile <path of dataset> : (Mandatory) Path of the dataset you want to work with
 		"""
 
+#
+# Function that reduce the number of features of a dataset using one of the five choosed techniques 
+# and based on a purcentage of reduction (0.8 : 80% of original number of features will be conserve)
+#
+
+def data_selection(x, y, technique, pourcentage_of_features) :
+	x_new = []
+	y_new = []
+	
+
+	return x_new, y_new
+
+#
+# Function that test a data set with differents learning techniques and a validation technique
+# and return the 3 scors (for each techniques) and the average score.
+#
+
+
+def data_test_and_validation(x_new, y_new) :
+	score = []
+
+
+	return score
 
 
 # Main function
@@ -83,8 +106,8 @@ def main(argv):
 	x = data[:,:len(data[0])-1]
 	x = x.astype(np.float)
 	y = data[:,len(data[0])-1:len(data[0])]
-	print x
-	print y
+	x_new, y_new = data_selection(x, y, "1", "0.8")
+	score = data_test_and_validation(x_new, y_new)
 
 if __name__ == "__main__":
    	main(sys.argv[1:])
