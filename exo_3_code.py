@@ -80,7 +80,11 @@ Help :
 def main(argv):
    	datasetfile = options_load(argv)
 	data  = load_file(datasetfile)
-	print data
+	x = data[:,:len(data[0])-1]
+	x = x.astype(np.float)
+	y = data[:,len(data[0])-1:len(data[0])]
+	print x
+	print y
 
 if __name__ == "__main__":
    	main(sys.argv[1:])
