@@ -8,7 +8,6 @@ from sklearn import svm
 # and return the 3 scores (for each techniques) and the average score.
 #
 
-
 def data_test_and_validation(x, y) :
 	score = []
 	x_train, x_test, y_train, y_test  = train_test_split(x, y, test_size=.3)

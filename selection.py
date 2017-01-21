@@ -5,6 +5,8 @@ from sklearn.feature_selection import SelectFromModel
 from sklearn.feature_selection import VarianceThreshold
 from sklearn.svm import LinearSVC
 from sklearn import preprocessing
+
+
 #
 # Function that reduce the number of features of a dataset using one of the five choosed techniques 
 # and based on a purcentage of reduction (0.8 : 80% of original number of features will be conserve)
@@ -20,6 +22,7 @@ def features_selection(X, y, technique, percentage) :
 		return tree_based_feature_selection(X,y, percentage)
 	if technique == 'l1':
 		return l1_feature_selection(X,y, percentage)
+
 
 
 def univariant_feature_selection(X,y,method,score_function, percentage) :
@@ -51,6 +54,7 @@ def lvariance_feature_selection(X,y, percentage) :
 	print (sel.fit_transform(X))[0].size
 	return sel.transform(X)
 
+    return
 
 def l1_feature_selection(X,y, percentage) :
 	lsvc = LinearSVC(C=0.01, penalty="l1", dual=False).fit(X, y)
@@ -77,3 +81,4 @@ def tree_based_feature_selection(X,y, percentage) :
 		if ((model.transform(X))[0].size < percentage*X[0].size) :
 			stay = False
 	return model.transform(X)
+

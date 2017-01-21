@@ -19,6 +19,7 @@ import loading as load
 
 # Main function
 
+
 def main(argv):
 	
 	# Loading dataset
@@ -68,4 +69,4 @@ def main(argv):
 	score = data_test_and_validation(x_new, y)
 
 if __name__ == "__main__":
-   	main(sys.argv[1:])
+    main(sys.argv[1:])
