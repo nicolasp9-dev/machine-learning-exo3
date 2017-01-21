@@ -35,7 +35,7 @@ def univariant_feature_selection(X,y,method,score_function, percentage) :
 
 def lvariance_feature_selection(X,y, percentage) :
 	X = preprocessing.scale(X)
-	j=0.5
+	j=0
 	stay = True
 	while stay :
 		
