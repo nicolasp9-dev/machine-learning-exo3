@@ -31,13 +31,40 @@ def main(argv):
 	# Preprocessing x part of dataset
 	min_max_scaler = preprocessing.MinMaxScaler()
 	x = min_max_scaler.fit_transform(x)	
+	
+	print "No selection"	
+	score = data_test_and_validation(x, y)
 
-	print "Unvariate"	
-	x_new = features_selection(x, y, 'univariate')
+	print "l1 0.8"	
+	x_new = features_selection(x, y, 'l1', .8)
+	score = data_test_and_validation(x_new, y)
+
+	print "Univariate 0.6"	
+	x_new = features_selection(x, y, 'univariate', .6)
+	score = data_test_and_validation(x_new, y)
+
+	print "Univariate 0.4"	
+	x_new = features_selection(x, y, 'univariate', .4)
+	score = data_test_and_validation(x_new, y)
+
+	print "Univariate 0.2"	
+	x_new = features_selection(x, y, 'univariate', .2)
+	score = data_test_and_validation(x_new, y)
+
+	print "Tree based 0.8"
+	x_new = features_selection(x, y, 'tree_based', .8)
 	score = data_test_and_validation(x_new, y)
 	
-	print "Low variance"
-	x_new = features_selection(x, y, 'lvariance')
+	print "Tree based 0.6"
+	x_new = features_selection(x, y, 'tree_based', .6)
+	score = data_test_and_validation(x_new, y)
+
+	print "Tree based 0.4"
+	x_new = features_selection(x, y, 'tree_based', .4)
+	score = data_test_and_validation(x_new, y)
+
+	print "Tree based 0.2"
+	x_new = features_selection(x, y, 'tree_based', .2)
 	score = data_test_and_validation(x_new, y)
 
 if __name__ == "__main__":

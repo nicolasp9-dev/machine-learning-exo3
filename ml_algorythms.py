@@ -1,7 +1,7 @@
 from sklearn import neighbors
 from sklearn.model_selection import train_test_split
 from sklearn.neural_network import MLPClassifier
-
+from sklearn import svm
 
 #
 # Function that test a data set with differents learning techniques and a validation technique
@@ -30,6 +30,6 @@ def data_test_and_validation(x, y) :
 	clf3.fit(x_train, y_train)
 	score.append(clf3.score(x_test, y_test))  	
 
-	score.append((score[O]+score[1]+score[2])/3)
+	score.append((score[0]+score[1]+score[2])/3)
 	print "K-nn score : %f / NN score : %f / SVM Algorythm : %f / Average : %f" % (score[0],  score[1], score[2], score[3])
 	return score
