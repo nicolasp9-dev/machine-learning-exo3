@@ -18,14 +18,15 @@ import loading as load
 
 # Main function
 
+
 def main(argv):
-   	datasetfile = load.options(argv)
-	data  = load.file(datasetfile)
-	x = data[:,:len(data[0])-1]
-	x = x.astype(np.float)
-	y = data[:,len(data[0])-1]	
-	x_new = features_selection(x, y, 'univariate')
-	score = data_test_and_validation(x_new, y)
+    datasetfile = load.options(argv)
+    data  = load.file(datasetfile)
+    x = data[:,:len(data[0])-1]
+    x = x.astype(np.float)
+    y = data[:,len(data[0])-1]
+    x_new = features_selection(x, y, 'univariate')
+    score = data_test_and_validation(x_new, y)
 
 if __name__ == "__main__":
-   	main(sys.argv[1:])
+    main(sys.argv[1:])

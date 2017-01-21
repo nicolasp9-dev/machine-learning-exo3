@@ -1,5 +1,7 @@
 from sklearn.feature_selection import SelectKBest
 from sklearn.feature_selection import chi2, mutual_info_classif, f_classif
+from sklearn.svm import linear_model
+from sklearn.feature_selection import SelectFromModel
 
 
 #
@@ -8,13 +10,13 @@ from sklearn.feature_selection import chi2, mutual_info_classif, f_classif
 #
 
 def features_selection(X, y, technique) :
-	
-	if technique == 'univariate':
-        	return univariant_feature_selection(X,y,'KBest','chi2')
-	if technique == 'lvariance':
-		return lvariance_feature_selection(X,y)
-	if technique == 'tree_based':
-		return tree_based_feature_selection(X,y)
+
+    if technique == 'univariate':
+            return univariant_feature_selection(X,y,'KBest','chi2')
+    if technique == 'lvariance':
+        return lvariance_feature_selection(X,y)
+    if technique == 'tree_based':
+        return tree_based_feature_selection(X,y)
 
 
 def univariant_feature_selection(X,y,method,score_function) :
@@ -26,11 +28,20 @@ def univariant_feature_selection(X,y,method,score_function) :
         elif score_function == 'f_classif':
             return SelectKBest(f_classif, k=2).fit_transform(X, y)
 
-def lvariance_feature_selection(X,y) :
 
-	return
+def L1_based_feature_selection(X,y):
+    li= linear_model.LogisticRegression(C=0.01, penalty="l1", dual=False).fit(X, y)
+    model = SelectFromModel(li, prefit=True)
+    return model.transform(X)
 
 
-def tree_based_feature_selection(X,y) :
+def lvariance_feature_selection(X,y):
 
-	return
+    return
+
+
+def tree_based_feature_selection(X,y):
+
+    return
+
+
