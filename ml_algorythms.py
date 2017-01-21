@@ -21,14 +21,15 @@ def data_test_and_validation(x, y) :
 	score.append(clf.score(x_test, y_test))
 
 	# NN Algorythm
-	
 	clf2 = MLPClassifier(alpha=1)
    	clf2.fit(x_train,y_train)
     	score.append(clf2.score(x_test, y_test))
 
-	print "K-nn score : %f / NN score : %f" % (score[0],  score[1])
-
 	# Third ML Algorithm
+	clf3 = svm.SVC()
+	clf3.fit(x_train, y_train)
+	score.append(clf3.score(x_test, y_test))  	
 
-	#score.append((score[O]+score[1]+score[2])/3)
+	score.append((score[O]+score[1]+score[2])/3)
+	print "K-nn score : %f / NN score : %f / SVM Algorythm : %f / Average : %f" % (score[0],  score[1], score[2], score[3])
 	return score
