@@ -54,8 +54,6 @@ def lvariance_feature_selection(X,y, percentage) :
 	print (sel.fit_transform(X))[0].size
 	return sel.transform(X)
 
-    return
-
 def l1_feature_selection(X,y, percentage) :
 	lsvc = LinearSVC(C=0.01, penalty="l1", dual=False).fit(X, y)
 	j=0
