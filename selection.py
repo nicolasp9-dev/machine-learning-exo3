@@ -11,21 +11,23 @@ from sklearn.feature_selection import SelectFromModel
 def features_selection(X, y, technique) :
 	
 	if technique == 'univariate':
-        	return univariant_feature_selection(X,y,'KBest','chi2')
+        	return univariant_feature_selection(X,y,'KBest','chi2', .6)
 	if technique == 'lvariance':
 		return lvariance_feature_selection(X,y)
 	if technique == 'tree_based':
 		return tree_based_feature_selection(X,y)
 
 
-def univariant_feature_selection(X,y,method,score_function) :
-    if method == 'KBest':
-        if score_function == 'chi2':
-            return SelectKBest(chi2, k=2).fit_transform(X, y)
-        elif score_function == 'mutual_info_classif':
-            return SelectKBest(mutual_info_classif, k=2).fit_transform(X, y)
-        elif score_function == 'f_classif':
-            return SelectKBest(f_classif, k=2).fit_transform(X, y)
+def univariant_feature_selection(X,y,method,score_function, percentage) :
+	k = int(X[0].size * percentage)
+
+	if method == 'KBest':
+		if score_function == 'chi2':
+		    return SelectKBest(chi2, k=k).fit_transform(X, y)
+		elif score_function == 'mutual_info_classif':
+		    return SelectKBest(mutual_info_classif, k=k).fit_transform(X, y)
+		elif score_function == 'f_classif':
+		    return SelectKBest(f_classif, k=k).fit_transform(X, y)
 
 def lvariance_feature_selection(X,y) :
 	clf = ExtraTreesClassifier()

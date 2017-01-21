@@ -11,6 +11,7 @@
 
 from ml_algorythms import data_test_and_validation
 from selection import features_selection
+from sklearn import preprocessing
 
 import sys, getopt
 import arff, numpy as np
@@ -19,12 +20,18 @@ import loading as load
 # Main function
 
 def main(argv):
+	
+	# Loading dataset
    	datasetfile = load.options(argv)
 	data  = load.file(datasetfile)
 	x = data[:,:len(data[0])-1]
 	x = x.astype(np.float)
-	y = data[:,len(data[0])-1]	
-	
+	y = data[:,len(data[0])-1]
+
+	# Preprocessing x part of dataset
+	min_max_scaler = preprocessing.MinMaxScaler()
+	x = min_max_scaler.fit_transform(x)	
+
 	print "Unvariate"	
 	x_new = features_selection(x, y, 'univariate')
 	score = data_test_and_validation(x_new, y)
