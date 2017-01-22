@@ -53,7 +53,7 @@ def main(argv):
 			score_prov.append(technique)
 			x_new = features_selection(x, y, technique, percentage)
 			score_prov = score_prov+data_test_and_validation(x_new, y)
-			score_prov.append(round((x_new[0].size/x[0].size), 2))
+			score_prov.append(round((float(x_new[0].size)/float(x[0].size)), 2))
 			score_prov.append(int(x[0].size))
 			score_prov.append(int(x_new[0].size))	
 			score.append(score_prov)
