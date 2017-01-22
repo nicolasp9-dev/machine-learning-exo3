@@ -34,7 +34,7 @@ def univariant_feature_selection(X,y,method,score_function, percentage) :
 
 
 def l1_feature_selection(X,y, percentage) :
-    j=percentage*X[0].size*0.002
+    j=percentage*X[0].size*0.004
     while True :
         j-=0.0001*percentage*X[0].size/2
         lsvc = LinearSVC(C=j, penalty="l1", dual=False).fit(X, y)
