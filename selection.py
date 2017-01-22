@@ -13,68 +13,65 @@ from sklearn import preprocessing
 #
 
 def features_selection(X, y, technique, percentage) :
-	
-	if technique == 'univariate':
-        	return univariant_feature_selection(X,y,'KBest','chi2', percentage)
-	if technique == 'lvariance':
-		return lvariance_feature_selection(X,y, percentage)
-	if technique == 'tree_based':
-		return tree_based_feature_selection(X,y, percentage)
-	if technique == 'l1':
-		return l1_feature_selection(X,y, percentage)
 
+    if technique == 'univariate':
+            return univariant_feature_selection(X,y,'KBest','chi2', percentage)
+    if technique == 'lvariance':
+        return lvariance_feature_selection(X,y, percentage)
+    if technique == 'tree_based':
+        return tree_based_feature_selection(X,y, percentage)
+    if technique == 'l1':
+        return l1_feature_selection(X,y, percentage)
 
 
 def univariant_feature_selection(X,y,method,score_function, percentage) :
-	k = int(X[0].size * percentage) 
-	if method == 'KBest':
-		if score_function == 'chi2':
-		    return SelectKBest(chi2, k=k).fit_transform(X, y)
-		elif score_function == 'mutual_info_classif':
-		    return SelectKBest(mutual_info_classif, k=k).fit_transform(X, y)
-		elif score_function == 'f_classif':
-		    return SelectKBest(f_classif, k=k).fit_transform(X, y)
+    k = int(X[0].size * percentage)
+    if method == 'KBest':
+        if score_function == 'chi2':
+            return SelectKBest(chi2, k=k).fit_transform(X, y)
+        elif score_function == 'mutual_info_classif':
+            return SelectKBest(mutual_info_classif, k=k).fit_transform(X, y)
+        elif score_function == 'f_classif':
+            return SelectKBest(f_classif, k=k).fit_transform(X, y)
+
 
 def lvariance_feature_selection(X,y, percentage) :
-	X = preprocessing.scale(X)
-	j=0.5
-	stay = True
-	while stay :
-		
-		j+=1
-		sel = VarianceThreshold(threshold=(j * (1 - j)))
-		if ((sel.fit_transform(X))[0].size <= percentage*X[0].size) :
-			stay = False
-		print (sel.fit_transform(X))[0].size
-	return sel.transform(X)
+    X = preprocessing.scale(X)
+    j=0.5
+    while True :
+        j+=1
+        sel = VarianceThreshold(threshold=(j * (1 - j)))
+        if (sel.fit_transform(X))[0].size <= percentage*X[0].size:
+            break
+        print(sel.fit_transform(X)[0].size)
+    return sel.transform(X)
+
 
 def l1_feature_selection(X,y, percentage) :
-	j=percentage*X[0].size*0.002
-	stay = True
-	while stay :
-		j-=0.0001*percentage*X[0].size/2
-		lsvc = LinearSVC(C=j, penalty="l1", dual=False).fit(X, y)
-		model = SelectFromModel(lsvc, prefit=True)
-		if ((model.transform(X))[0].size <= percentage*X[0].size) :
-			print "Yeh"
-			stay = False
-		print (model.transform(X))[0].size
-		print percentage*X[0].size
-	return model.transform(X)
-	
+    j=percentage*X[0].size*0.002
+    while True :
+        j-=0.0001*percentage*X[0].size/2
+        lsvc = LinearSVC(C=j, penalty="l1", dual=False).fit(X, y)
+        model = SelectFromModel(lsvc, prefit=True)
+        if ((model.transform(X))[0].size <= percentage*X[0].size) :
+            print("Yeh")
+            break
+        print(model.transform(X)[0].size)
+        print(percentage*X[0].size)
+    return model.transform(X)
+
 
 def tree_based_feature_selection(X,y, percentage) :
-	clf = ExtraTreesClassifier()
-	clf = clf.fit(X, y)
-	j=0
-	stay = True
-	while stay :
-		j+=0.0001*percentage*X[0].size/3
-		stra = str(j) +"*mean"
-		model = SelectFromModel(clf, prefit=True, threshold=stra)
-		if ((model.transform(X))[0].size <= percentage*X[0].size) :
-			stay = False
-			print (model.transform(X))[0].size
-			print percentage*X[0].size
-	return model.transform(X)
+    clf = ExtraTreesClassifier()
+    clf = clf.fit(X, y)
+    j=0
+    while True :
+        j+=0.0001*percentage*X[0].size/3
+        stra = str(j) + "*mean"
+        model = SelectFromModel(clf, prefit=True, threshold=stra)
+        if (model.transform(X))[0].size <= percentage*X[0].size:
+            print(model.transform(X)[0].size)
+            print(percentage*X[0].size)
+            break
+    return model.transform(X)
 
