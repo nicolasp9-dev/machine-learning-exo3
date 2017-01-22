@@ -53,10 +53,9 @@ def main(argv):
 			x_new = features_selection(x, y, technique, percentage)
 			score_prov = score_prov+data_test_and_validation(x_new, y)
 			score_prov.append(int(x[0].size))
-			score_prov.append(int(x[0].size * percentage))	
+			score_prov.append(int(x_new[0].size))	
 			score.append(score_prov)
-	
-	print "je suis la"
+
 	with open(datasetfile+".csv", "wb") as f:
 	    writer = csv.writer(f)
 	    writer.writerows(score)

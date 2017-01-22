@@ -15,9 +15,7 @@ from sklearn import preprocessing
 def features_selection(X, y, technique, percentage) :
 
     if technique == 'univariate':
-            return univariant_feature_selection(X,y,'KBest','chi2', percentage)
-    if technique == 'lvariance':
-        return lvariance_feature_selection(X,y, percentage)
+        return univariant_feature_selection(X,y,'KBest','chi2', percentage)
     if technique == 'tree_based':
         return tree_based_feature_selection(X,y, percentage)
     if technique == 'l1':
@@ -35,18 +33,6 @@ def univariant_feature_selection(X,y,method,score_function, percentage) :
             return SelectKBest(f_classif, k=k).fit_transform(X, y)
 
 
-def lvariance_feature_selection(X,y, percentage) :
-    X = preprocessing.scale(X)
-    j=0.5
-    while True :
-        j+=1
-        sel = VarianceThreshold(threshold=(j * (1 - j)))
-        if (sel.fit_transform(X))[0].size <= percentage*X[0].size:
-            break
-        print(sel.fit_transform(X)[0].size)
-    return sel.transform(X)
-
-
 def l1_feature_selection(X,y, percentage) :
     j=percentage*X[0].size*0.002
     while True :
@@ -54,10 +40,7 @@ def l1_feature_selection(X,y, percentage) :
         lsvc = LinearSVC(C=j, penalty="l1", dual=False).fit(X, y)
         model = SelectFromModel(lsvc, prefit=True)
         if ((model.transform(X))[0].size <= percentage*X[0].size) :
-            print("Yeh")
             break
-        print(model.transform(X)[0].size)
-        print(percentage*X[0].size)
     return model.transform(X)
 
 
@@ -70,8 +53,6 @@ def tree_based_feature_selection(X,y, percentage) :
         stra = str(j) + "*mean"
         model = SelectFromModel(clf, prefit=True, threshold=stra)
         if (model.transform(X))[0].size <= percentage*X[0].size:
-            print(model.transform(X)[0].size)
-            print(percentage*X[0].size)
             break
     return model.transform(X)
 
