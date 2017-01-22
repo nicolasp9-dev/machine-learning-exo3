@@ -39,13 +39,13 @@ def main(argv):
 	score_prov = []
 	score_prov.append('NO')
 	score_prov.append('1')
-	score_prov = score_prov+data_test_and_validation(x_new, y)
+	score_prov = score_prov+data_test_and_validation(x, y)
 	score_prov.append(int(x[0].size))
 	score_prov.append(int(x[0].size))	
 	score.append(score_prov)
 
 	score.append(['Technique','Percentage','K-nn score','NN score','SVM Score','Average score','Total number of features', 'Number of selected features'])
-	for technique in ['univariate', 'tree_based', 'l1'] :
+	for technique in [ 'univariate', 'tree_based', 'l1'] :
 		for percentage in np.arange(0.1,1.05,0.1) :
 			score_prov = []
 			score_prov.append(technique)
@@ -56,7 +56,7 @@ def main(argv):
 			score_prov.append(int(x[0].size * percentage))	
 			score.append(score_prov)
 	
-
+	print "je suis la"
 	with open(datasetfile+".csv", "wb") as f:
 	    writer = csv.writer(f)
 	    writer.writerows(score)

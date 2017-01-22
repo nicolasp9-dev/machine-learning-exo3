@@ -49,16 +49,17 @@ def lvariance_feature_selection(X,y, percentage) :
 	return sel.transform(X)
 
 def l1_feature_selection(X,y, percentage) :
-	j=percentage*X[0].size*0.01
+	j=percentage*X[0].size*0.002
 	stay = True
 	while stay :
 		j-=0.0001*percentage*X[0].size/2
 		lsvc = LinearSVC(C=j, penalty="l1", dual=False).fit(X, y)
 		model = SelectFromModel(lsvc, prefit=True)
 		if ((model.transform(X))[0].size <= percentage*X[0].size) :
-			print (model.transform(X))[0].size
-			print percentage*X[0].size
+			print "Yeh"
 			stay = False
+		print (model.transform(X))[0].size
+		print percentage*X[0].size
 	return model.transform(X)
 	
 
@@ -68,10 +69,12 @@ def tree_based_feature_selection(X,y, percentage) :
 	j=0
 	stay = True
 	while stay :
-		j+=0.001
+		j+=0.0001*percentage*X[0].size/3
 		stra = str(j) +"*mean"
 		model = SelectFromModel(clf, prefit=True, threshold=stra)
 		if ((model.transform(X))[0].size <= percentage*X[0].size) :
 			stay = False
+			print (model.transform(X))[0].size
+			print percentage*X[0].size
 	return model.transform(X)
 
