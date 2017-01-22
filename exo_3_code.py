@@ -37,21 +37,23 @@ def main(argv):
 	score= []
 
 	score_prov = []
+
+	score.append(['Technique','K-nn score','NN score','SVM Score','Average score','Percentage','Total number of features', 'Number of selected features'])
+
 	score_prov.append('NO')
-	score_prov.append('1')
 	score_prov = score_prov+data_test_and_validation(x, y)
+	score_prov.append('1')
 	score_prov.append(int(x[0].size))
 	score_prov.append(int(x[0].size))	
 	score.append(score_prov)
 
-	score.append(['Technique','Percentage','K-nn score','NN score','SVM Score','Average score','Total number of features', 'Number of selected features'])
 	for technique in [ 'univariate', 'tree_based', 'l1'] :
 		for percentage in np.arange(0.1,1.05,0.1) :
 			score_prov = []
 			score_prov.append(technique)
-			score_prov.append(round((x_new[0].size/x[0].size), 2))
 			x_new = features_selection(x, y, technique, percentage)
 			score_prov = score_prov+data_test_and_validation(x_new, y)
+			score_prov.append(round((x_new[0].size/x[0].size), 2))
 			score_prov.append(int(x[0].size))
 			score_prov.append(int(x_new[0].size))	
 			score.append(score_prov)
