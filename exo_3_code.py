@@ -49,7 +49,7 @@ def main(argv):
 		for percentage in np.arange(0.1,1.05,0.1) :
 			score_prov = []
 			score_prov.append(technique)
-			score_prov.append(round(percentage, 2))
+			score_prov.append(round((x_new[0].size/x[0].size), 2))
 			x_new = features_selection(x, y, technique, percentage)
 			score_prov = score_prov+data_test_and_validation(x_new, y)
 			score_prov.append(int(x[0].size))
