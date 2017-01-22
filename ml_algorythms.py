@@ -17,18 +17,18 @@ def data_test_and_validation(x, y) :
 	x_train, x_test, y_train, y_test  = train_test_split(x, y, test_size=.3)
 	clf = neighbors.KNeighborsClassifier(n_neighbors, weights='distance')
     	clf.fit(x_train, y_train)
-	score.append(clf.score(x_test, y_test))
+	score.append(round(clf.score(x_test, y_test),3))
 
 	# NN Algorythm
 	clf2 = MLPClassifier(alpha=1)
    	clf2.fit(x_train,y_train)
-    	score.append(clf2.score(x_test, y_test))
+    	score.append(round(clf2.score(x_test, y_test),3))
 
-	# Third ML Algorithm
+	# SVM ML Algorithm
 	clf3 = svm.SVC()
 	clf3.fit(x_train, y_train)
-	score.append(clf3.score(x_test, y_test))  	
+	score.append(round(clf3.score(x_test, y_test),3))  	
 
-	score.append((score[0]+score[1]+score[2])/3)
-	print "K-nn score : %f / NN score : %f / SVM Algorythm : %f / Average : %f" % (score[0],  score[1], score[2], score[3])
+	score.append(round((score[0]+score[1]+score[2])/3,3))
+	#print "K-nn score : %f / NN score : %f / SVM Algorythm : %f / Average : %f" % (score[0],  score[1], score[2], score[3])
 	return score

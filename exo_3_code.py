@@ -13,6 +13,7 @@ from ml_algorythms import data_test_and_validation
 from selection import features_selection
 from sklearn import preprocessing
 
+import csv
 import sys, getopt
 import arff, numpy as np
 import loading as load
@@ -33,40 +34,32 @@ def main(argv):
 	min_max_scaler = preprocessing.MinMaxScaler()
 	x = min_max_scaler.fit_transform(x)	
 	
-	print "No selection"	
-	score = data_test_and_validation(x, y)
+	score= []
 
-	print "l1 0.8"	
-	x_new = features_selection(x, y, 'l1', .8)
-	score = data_test_and_validation(x_new, y)
+	score_prov = []
+	score_prov.append('NO')
+	score_prov.append('1')
+	score_prov = score_prov+data_test_and_validation(x, y)
+	score_prov.append(int(x[0].size))
+	score_prov.append(int(x[0].size))	
+	score.append(score_prov)
 
-	print "Univariate 0.6"	
-	x_new = features_selection(x, y, 'univariate', .6)
-	score = data_test_and_validation(x_new, y)
-
-	print "Univariate 0.4"	
-	x_new = features_selection(x, y, 'univariate', .4)
-	score = data_test_and_validation(x_new, y)
-
-	print "Univariate 0.2"	
-	x_new = features_selection(x, y, 'univariate', .2)
-	score = data_test_and_validation(x_new, y)
-
-	print "Tree based 0.8"
-	x_new = features_selection(x, y, 'tree_based', .8)
-	score = data_test_and_validation(x_new, y)
+	score.append(['Technique','Percentage','K-nn score','NN score','SVM Score','Average score','Total number of features', 'Number of selected features'])
+	for technique in [ 'univariate', 'tree_based', 'l1'] :
+		for percentage in np.arange(0.1,1.05,0.1) :
+			score_prov = []
+			score_prov.append(technique)
+			score_prov.append(round(percentage, 2))
+			x_new = features_selection(x, y, technique, percentage)
+			score_prov = score_prov+data_test_and_validation(x_new, y)
+			score_prov.append(int(x[0].size))
+			score_prov.append(int(x[0].size * percentage))	
+			score.append(score_prov)
 	
-	print "Tree based 0.6"
-	x_new = features_selection(x, y, 'tree_based', .6)
-	score = data_test_and_validation(x_new, y)
-
-	print "Tree based 0.4"
-	x_new = features_selection(x, y, 'tree_based', .4)
-	score = data_test_and_validation(x_new, y)
-
-	print "Tree based 0.2"
-	x_new = features_selection(x, y, 'tree_based', .2)
-	score = data_test_and_validation(x_new, y)
+	print "je suis la"
+	with open(datasetfile+".csv", "wb") as f:
+	    writer = csv.writer(f)
+	    writer.writerows(score)
 
 if __name__ == "__main__":
     main(sys.argv[1:])
