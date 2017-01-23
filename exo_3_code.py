@@ -17,19 +17,21 @@ import csv
 import sys, getopt
 import arff, numpy as np
 import loading as load
-
+import datetime
 # Main function
 
 
 def main(argv):
-	
+	print "Launching time :"	
+	print datetime.datetime.now().time()
+	print "Size :"
 	# Loading dataset
    	datasetfile = load.options(argv)
 	data  = load.file(datasetfile)
 	x = data[:,:len(data[0])-1]
 	x = x.astype(np.float)
 	y = data[:,len(data[0])-1]
-
+	print "%d, %d" % (data[0,:].size,data[:,0].size)
 	# Preprocessing x part of dataset
 	min_max_scaler = preprocessing.MinMaxScaler()
 	x = min_max_scaler.fit_transform(x)	
@@ -46,7 +48,7 @@ def main(argv):
 	score_prov.append(int(x[0].size))
 	score_prov.append(int(x[0].size))	
 	score.append(score_prov)
-
+		
 	for technique in [ 'univariate', 'tree_based', 'l1'] :
 		for percentage in np.arange(0.1,1.05,0.1) :
 			score_prov = []
@@ -61,6 +63,7 @@ def main(argv):
 	with open(datasetfile+".csv", "wb") as f:
 	    writer = csv.writer(f)
 	    writer.writerows(score)
-
+	print "Ending time :"	
+	print datetime.datetime.now().time()
 if __name__ == "__main__":
     main(sys.argv[1:])
